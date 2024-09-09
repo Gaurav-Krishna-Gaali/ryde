@@ -4,6 +4,7 @@ import { Text, ScrollView, View, Image } from "react-native";
 import InputField from "@/components/InputField";
 import CustomButton from "@/components/CustomButton";
 import { Link, router } from "expo-router";
+import OAuth from "@/components/OAuth";
 
 const SignUp = () => {
   const [form, setForm] = useState({ name: "", email: "", password: "" });
@@ -28,7 +29,7 @@ const SignUp = () => {
           />
           <InputField
             label="Email"
-            placeholder="Enter your emial"
+            placeholder="Enter your email"
             icon={icons.email}
             value={form.email}
             onChangeText={(value) => setForm({ ...form, email: value })}
@@ -41,14 +42,12 @@ const SignUp = () => {
             secureTextEntry={true}
             onChangeText={(value) => setForm({ ...form, password: value })}
           />
-
           <CustomButton
             title="Sign Up"
             onPress={onSignUpPress}
             className="mt-6"
           />
-          {/* OAuth */}
-
+          <OAuth />
           <Link
             href="/sign-in"
             className="text-lg text-center text-general-200 mt-10"
