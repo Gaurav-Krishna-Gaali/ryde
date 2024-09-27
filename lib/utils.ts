@@ -1,4 +1,4 @@
-import { Ride } from "@/types/type";
+import { Ride } from "@/types/types";
 
 export const sortRides = (rides: Ride[]): Ride[] => {
   const result = rides.sort((a, b) => {

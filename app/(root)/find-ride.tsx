@@ -16,9 +16,6 @@ const FindRide = () => {
 
   return (
     <RideLayout title="Ride" snapPoints={["85%"]}>
-      <Text className="text-3xl font-JakartaBold">
-        {userAddress} {destinationAddress}
-      </Text>
       <View className="my-3 ">
         <Text className="text-lg font-JakartaSemiBold mb-3">From</Text>
         <GoogleTextInput
