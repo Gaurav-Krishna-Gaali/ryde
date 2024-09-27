@@ -110,7 +110,6 @@ export const Map = () => {
           }
         />
       ))}
-      <Text>Map</Text>
     </MapView>
   );
 };
