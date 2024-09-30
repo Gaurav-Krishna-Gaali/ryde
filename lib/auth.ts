@@ -1,6 +1,7 @@
-import * as SecureStore from "expo-secure-store";
 import * as Linking from "expo-linking";
-import { fetchAPI } from "./fetch";
+import * as SecureStore from "expo-secure-store";
+
+import { fetchAPI } from "@/lib/fetch";
 
 export const tokenCache = {
   async getToken(key: string) {
@@ -29,13 +30,13 @@ export const tokenCache = {
 
 export const googleOAuth = async (startOAuthFlow: any) => {
   try {
-    const { createdSessionId, signUp, setActive } = await startOAuthFlow({
-      redirectUrl: Linking.createURL("/(root)/tabs/home ", { scheme: "myapp" }),
+    const { createdSessionId, setActive, signUp } = await startOAuthFlow({
+      redirectUrl: Linking.createURL("/(root)/(tabs)/home"),
     });
 
     if (createdSessionId) {
       if (setActive) {
-        await setActive!({ session: createdSessionId });
+        await setActive({ session: createdSessionId });
 
         if (signUp.createdUserId) {
           await fetchAPI("/(api)/user", {
@@ -51,18 +52,17 @@ export const googleOAuth = async (startOAuthFlow: any) => {
         return {
           success: true,
           code: "success",
-          message: "You are successfully authenticated",
+          message: "You have successfully signed in with Google",
         };
       }
     }
+
     return {
       success: false,
-      code: "success",
-      message: "An error occured",
+      message: "An error occurred while signing in with Google",
     };
   } catch (err: any) {
-    console.log("Google OAuth error", err);
-
+    console.error(err);
     return {
       success: false,
       code: err.code,

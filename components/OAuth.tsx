@@ -1,31 +1,25 @@
-import { View, Text, Image, Alert } from "react-native";
-import CustomButton from "./CustomButton";
-import { icons } from "@/constants";
 import { useOAuth } from "@clerk/clerk-expo";
-import { useCallback } from "react";
-import { googleOAuth } from "@/lib/auth";
 import { router } from "expo-router";
+import { Alert, Image, Text, View } from "react-native";
+
+import CustomButton from "@/components/CustomButton";
+import { icons } from "@/constants";
+import { googleOAuth } from "@/lib/auth";
 
 const OAuth = () => {
   const { startOAuthFlow } = useOAuth({ strategy: "oauth_google" });
 
-  const handleGoogleSignIn = useCallback(async () => {
-    try {
-      const result = await googleOAuth(startOAuthFlow);
+  const handleGoogleSignIn = async () => {
+    const result = await googleOAuth(startOAuthFlow);
 
-      if (result.code === "session_exists") {
-        Alert.alert(
-          "Success",
-          "Session already exists. Redirecting to home page"
-        );
-        router.push("/(root)/(tabs)/home");
-      }
-
-      Alert.alert(result.success ? "Success" : "Eror", result.message);
-    } catch (err) {
-      console.error("OAuth error", err);
+    if (result.code === "session_exists") {
+      Alert.alert("Success", "Session exists. Redirecting to home screen.");
+      router.replace("/(root)/(tabs)/home");
     }
-  }, []);
+
+    Alert.alert(result.success ? "Success" : "Error", result.message);
+  };
+
   return (
     <View>
       <View className="flex flex-row justify-center items-center mt-4 gap-x-3">
@@ -47,7 +41,7 @@ const OAuth = () => {
         bgVariant="outline"
         textVariant="primary"
         onPress={handleGoogleSignIn}
-      ></CustomButton>
+      />
     </View>
   );
 };
